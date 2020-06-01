@@ -40,14 +40,28 @@ int main(int argc, char *argv[]){
 
     char matriz[linha][coluna];
     //criação da matriz
-int i=0;
-int j=0;
+    int i=0;
+    int j=0;
+    int linha_inicio=0;
+    int coluna_inicio=0;
+    int linha_final,coluna_final=0;
+
     for(i; i<linha;i++){
 
         for( j = 0; j<coluna; j ++){
             
             matriz[i][j]=buffer;
-             fread(&buffer,1,1,arq_entrada); 
+            if(matriz[i][j]=='#'){
+                linha_inicio = i+1;
+                coluna_inicio = j+1;
+            }
+
+            if(matriz[i][j]=='$'){
+                linha_final = i+1;
+                coluna_final = j+1;
+            }
+            
+            fread(&buffer,1,1,arq_entrada); 
 
         }
 
@@ -71,6 +85,8 @@ int j=0;
 
         printf("\n");
     }
+
+    printf("inicio:\nlinha:%d coluna:%d\n\nfim:\nlinha:%d coluna:%d\n",linha_inicio,coluna_inicio,linha_final,coluna_final);
 
 
     return 0;
