@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include <time.h>
 #include "main.h"
 
 int main(int argc, char *argv[]){
@@ -107,8 +108,9 @@ printf("b");
     }
     int controle = 0;
     int indicador = 0;
+    No **teste;
     
-     constroi_arvore(ptrRaiz2,linha,coluna,matriz,linha_inicio,coluna_inicio,controle,indicador);
+     constroi_arvore(ptrRaiz2,linha,coluna,matriz,linha_inicio,coluna_inicio,controle,indicador,teste);
 
 
     printf("\n");
@@ -126,9 +128,26 @@ printf("b");
     printf("inicio:\nlinha:%d coluna:%d\n\nfim:\nlinha:%d coluna:%d\n",linha_inicio,coluna_inicio,linha_final,coluna_final);
 
 
-    teste_matriz_referencia(linha,coluna,matriz);
+   // teste_matriz_referencia(linha,coluna,matriz);
+
+   int final = 0;
+  
+   int * ptrfinal ;
+   
+   ptrfinal = &final;
+
+   int tam_max = (linha*coluna);
+    int posicao_caminho = 0;
+    char vetor_caminho[tam_max];
+    for(int i = 0;i<tam_max;i++){
+        vetor_caminho[i]='@';
+    }
+  
+   busca_profundidade(ptrRaiz2,linha_inicio,coluna_inicio,ptrfinal,posicao_caminho,tam_max,vetor_caminho,linha,coluna,matriz,linha_inicio,coluna_inicio);
 
    free (ptrRaiz);
+  // free(ptrRaiz2);
+  // free(teste);
    
     return 0;
 
