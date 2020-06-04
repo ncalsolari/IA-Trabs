@@ -142,9 +142,29 @@ printf("b");
     for(int i = 0;i<tam_max;i++){
         vetor_caminho[i]='@';
     }
+    
   
    busca_profundidade(ptrRaiz2,linha_inicio,coluna_inicio,ptrfinal,posicao_caminho,tam_max,vetor_caminho,linha,coluna,matriz,linha_inicio,coluna_inicio);
 
+    int pos_atual = 0;
+    int pos_total = 0;
+    int direcao = 0;
+
+    int matriz_num [tam_max][tam_max];
+
+    int v_filhos[tam_max];
+    int v_direcao[tam_max];
+    for(int i = 0;i<tam_max;i++){
+        v_filhos[i]=0;
+        v_direcao[i]=0;
+    }
+    for (int i=0;i<tam_max;i++){
+        for(int j=0;j<tam_max;j++){
+            matriz_num[i][j]=0;
+        }
+    }
+
+    busca_largura(ptrRaiz2,linha,coluna,tam_max,v_filhos,matriz_num,pos_atual,pos_total,v_direcao,direcao);
    free (ptrRaiz);
   // free(ptrRaiz2);
   // free(teste);
