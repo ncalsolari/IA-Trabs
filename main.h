@@ -543,9 +543,9 @@ int busca_profundidade(No **pRaiz, int linha, int coluna,int *final,int posicao_
 
 }
 
-int busca_largura(No **pRaiz,int linha, int coluna,int tam_max,int v_filhos[],int M[tam_max][tam_max],int pos_atual,int pos_total,int v_direcao[],int direcao){
+int busca_largura(No **pRaiz,int linha, int coluna,int tam_max,int v_filhos[],int M[tam_max][tam_max],int pos_atual,int pos_total,int v_direcao[],int direcao,char m[linha][coluna],int l_inic, int c_inic){
 
-
+      
     printf("nova func\nto no ponteiro:%d   %d\n\n",&(*pRaiz),M[0][0]);
     int controle_i=0;
     int controle_j=0;
@@ -601,13 +601,51 @@ int busca_largura(No **pRaiz,int linha, int coluna,int tam_max,int v_filhos[],in
    
     if((*pRaiz)->valor == '$'){
 
-        printf("Caaminho encontrado\n");
+        printf("Caminho Encontrado\n");
         printf("Caminho:");
         for(int i = 1;i<=controle_j;i++){
             printf("%d",M[controle_i][i]);
 
         }
+
         printf("\n");
+            int x = 1;
+         while(M[controle_i][x] != 0){
+              system("clear");
+            for(int i=0;i<linha;i++){
+                for(int j =0; j<coluna;j++){
+                    printf("%c ",m[i][j]);
+
+                }
+                printf("\n");
+            }
+
+            if(M[controle_i][x] == 1){
+                m[l_inic][c_inic-1] = 'o';
+                c_inic=c_inic-1;
+            }
+            if(M[controle_i][x] == 2){
+                m[l_inic+1][c_inic] = 'o';
+                l_inic=l_inic+1;
+            }
+            if(M[controle_i][x] == 3){
+                m[l_inic][c_inic+1] = 'o';
+                c_inic=c_inic+1;
+            }
+            if(M[controle_i][x] == 4){
+                m[l_inic-1][c_inic] = 'o';
+                l_inic=l_inic-1;
+            }
+
+            x++;
+            sleep(1);
+           
+
+        }
+    
+        printf("\n");
+
+
     }else{
 
         if((*pRaiz)->esquerda->valor == '*' || (*pRaiz)->esquerda->valor == '$' ){
@@ -655,42 +693,18 @@ int busca_largura(No **pRaiz,int linha, int coluna,int tam_max,int v_filhos[],in
         direcao = v_direcao[pos_atual];
 
 
-        busca_largura(&(*pRaiz),linha,coluna,tam_max,v_filhos,M,pos_atual,pos_total,v_direcao,direcao);
+        busca_largura(&(*pRaiz),linha,coluna,tam_max,v_filhos,M,pos_atual,pos_total,v_direcao,direcao,m,l_inic,c_inic);
 
              
 
     }
 
+   
+
+
     
    
     return 0;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

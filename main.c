@@ -49,6 +49,7 @@ printf("b");
     fread(&buffer,1,1,arq_entrada); //le o qubra de linha
     //printf("proximo char:%c\n", buffer);
     char matriz[linha][coluna];
+    char matriz_global[linha][coluna];
     //criação da matriz
     int i=0;
     int j=0;
@@ -83,6 +84,7 @@ printf("b");
         for( j = 0; j<coluna; j ++){
             
             matriz[i][j]=buffer;
+            matriz_global[i][j]=buffer;
             if(matriz[i][j]=='#'){
                 linha_inicio = i;
                 coluna_inicio = j;
@@ -92,6 +94,7 @@ printf("b");
                 linha_final = i;
                 coluna_final = j;
             }
+
             
             fread(&buffer,1,1,arq_entrada); 
 
@@ -164,7 +167,14 @@ printf("b");
         }
     }
 
-    busca_largura(ptrRaiz2,linha,coluna,tam_max,v_filhos,matriz_num,pos_atual,pos_total,v_direcao,direcao);
+    for (int i=0;i<linha;i++){
+        for(int j=0;j<coluna;j++){
+            matriz[i][j]=matriz_global[i][j];
+        }
+    }
+
+
+    busca_largura(ptrRaiz2,linha,coluna,tam_max,v_filhos,matriz_num,pos_atual,pos_total,v_direcao,direcao,matriz,linha_inicio,coluna_inicio);
    free (ptrRaiz);
   // free(ptrRaiz2);
   // free(teste);
