@@ -710,6 +710,10 @@ int busca_largura(No **pRaiz,int linha, int coluna,int tam_max,int v_filhos[],in
 
 }
 
+
+
+
+
 int teste_matriz_referencia(int linha, int coluna, char M[linha][coluna]){
 
      int i =0;

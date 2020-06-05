@@ -113,7 +113,7 @@ printf("b");
     int indicador = 0;
     No **teste;
     
-     constroi_arvore(ptrRaiz2,linha,coluna,matriz,linha_inicio,coluna_inicio,controle,indicador,teste);
+     constroi_arvore(ptrRaiz2,linha,coluna,matriz,linha_inicio,coluna_inicio,linha_final,coluna_final,controle,indicador,teste);
 
 
     printf("\n");
@@ -147,7 +147,7 @@ printf("b");
     }
     
   
-   busca_profundidade(ptrRaiz2,linha_inicio,coluna_inicio,linha_final,coluna_final,ptrfinal,posicao_caminho,tam_max,vetor_caminho,linha,coluna,matriz,linha_inicio,coluna_inicio);
+   busca_profundidade(ptrRaiz2,linha_inicio,coluna_inicio,ptrfinal,posicao_caminho,tam_max,vetor_caminho,linha,coluna,matriz,linha_inicio,coluna_inicio);
 
     int pos_atual = 0;
     int pos_total = 0;
