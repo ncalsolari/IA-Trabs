@@ -19,7 +19,7 @@ void constroi_matriz(int *linha,int *coluna,int *inicio_i,int *inicio_j,int *fim
 
 
 
-int constroi_arvore(No **pRaiz,int linha, int coluna, char M[linha][coluna], int linha_inico, int coluna_inicio,int controle,int indicador,No **ptrpai){
+int constroi_arvore(No **pRaiz,int linha, int coluna, char M[linha][coluna], int linha_inico, int coluna_inicio,int linha_final,int coluna_final,int controle,int indicador,No **ptrpai){
     int i = linha_inico;
     int j = coluna_inicio;
     
@@ -58,12 +58,12 @@ int constroi_arvore(No **pRaiz,int linha, int coluna, char M[linha][coluna], int
             *pRaiz =  (No *) malloc(sizeof (No));
             (*pRaiz)->valor = M[i][j];
             (*pRaiz)->visitado = 0;
-            (*pRaiz)->custo = 0;
+            (*pRaiz)->custo = (linha_final-i)+(coluna_final-j);
             indicador = 0;
             (*pRaiz)->pai = &(*pRaiz);
             printf("inicio");
             controle = 1;
-            constroi_arvore(&(*pRaiz),linha,coluna,M,i,j,controle,indicador,&(*pRaiz));
+            constroi_arvore(&(*pRaiz),linha,coluna,M,i,j,linha_final,coluna_final,controle,indicador,&(*pRaiz));
             return 0;
         
         }else{
@@ -83,7 +83,7 @@ int constroi_arvore(No **pRaiz,int linha, int coluna, char M[linha][coluna], int
                 (*pRaiz)->esquerda = (No *) malloc(sizeof (No));
                 (*pRaiz)->esquerda->valor = 'A';
                 (*pRaiz)->esquerda->visitado=0;
-                (*pRaiz)->esquerda->custo = 0;
+                (*pRaiz)->esquerda->custo = (linha_final-i)+(coluna_final-j);
                // printf("to no nó i:%d j:%d\n",i,j);
                 //printf("valor na esquerda é:%c\n\n",(*pRaiz)->esquerda->valor);
 
@@ -91,7 +91,7 @@ int constroi_arvore(No **pRaiz,int linha, int coluna, char M[linha][coluna], int
                 (*pRaiz)->esquerda = (No *) malloc(sizeof (No));
                 (*pRaiz)->esquerda->valor = M[i][j-1];
                 (*pRaiz)->esquerda->visitado=0;
-                (*pRaiz)->esquerda->custo = 0;
+                (*pRaiz)->esquerda->custo = (linha_final-i)+(coluna_final-j);
                // printf("to no nó i:%d j:%d\n",i,j);
                 // printf("valor na esquerda é:%c\n\n",(*pRaiz)->esquerda->valor);
 
@@ -102,7 +102,7 @@ int constroi_arvore(No **pRaiz,int linha, int coluna, char M[linha][coluna], int
             (*pRaiz)->esquerda = (No *) malloc(sizeof (No));
             (*pRaiz)->esquerda->valor = 'A';
             (*pRaiz)->esquerda->visitado=0;
-            (*pRaiz)->esquerda->custo = 0;
+            (*pRaiz)->esquerda->custo = (linha_final-i)+(coluna_final-j);
            //printf("to no nó i:%d j:%d\n",i,j);
             //printf("valor na esquerda é:%c\n\n",(*pRaiz)->esquerda->valor);
 
@@ -116,7 +116,7 @@ int constroi_arvore(No **pRaiz,int linha, int coluna, char M[linha][coluna], int
                 (*pRaiz)->baixo = (No *) malloc(sizeof (No));
                 (*pRaiz)->baixo->valor = 'A';
                 (*pRaiz)->baixo->visitado=0;
-                (*pRaiz)->baixo->custo = 0;
+                (*pRaiz)->baixo->custo = (linha_final-i)+(coluna_final-j);
                 // printf("to no nó i:%d j:%d\n",i,j);
              // printf("valor embaixo é:%c\n\n",(*pRaiz)->baixo->valor);
 
@@ -126,7 +126,7 @@ int constroi_arvore(No **pRaiz,int linha, int coluna, char M[linha][coluna], int
                 (*pRaiz)->baixo = (No *) malloc(sizeof (No));
                 (*pRaiz)->baixo->valor = M[i+1][j];
                 (*pRaiz)->baixo->visitado=0;
-                (*pRaiz)->baixo->custo = 0;
+                (*pRaiz)->baixo->custo = (linha_final-i)+(coluna_final-j);
                 //printf("to no nó i:%d j:%d\n",i,j);
                 //printf("valor embaixo é:%c\n\n",(*pRaiz)->baixo->valor);
 
@@ -138,7 +138,7 @@ int constroi_arvore(No **pRaiz,int linha, int coluna, char M[linha][coluna], int
             (*pRaiz)->baixo = (No *) malloc(sizeof (No));
             (*pRaiz)->baixo->valor = 'A';
             (*pRaiz)->baixo->visitado=0;
-            (*pRaiz)->baixo->custo = 0;
+            (*pRaiz)->baixo->custo = (linha_final-i)+(coluna_final-j);
            // printf("to no nó i:%d j:%d\n",i,j);
             //printf("valor embaixo é:%c\n\n",(*pRaiz)->baixo->valor);
 
@@ -150,7 +150,7 @@ int constroi_arvore(No **pRaiz,int linha, int coluna, char M[linha][coluna], int
                 (*pRaiz)->direita = (No *) malloc(sizeof (No));
                 (*pRaiz)->direita->valor = '-';
                 (*pRaiz)->direita->visitado=0;
-                (*pRaiz)->direita->custo = 0;
+                (*pRaiz)->direita->custo = (linha_final-i)+(coluna_final-j);
                // printf("to no nó i:%d j:%d\n",i,j);
                 //printf("valor a minha direita é:%c\n\n",(*pRaiz)->direita->valor);
 
@@ -158,7 +158,7 @@ int constroi_arvore(No **pRaiz,int linha, int coluna, char M[linha][coluna], int
                 (*pRaiz)->direita = (No *) malloc(sizeof (No));
                 (*pRaiz)->direita->valor = M[i][j+1];
                 (*pRaiz)->direita->visitado=0;
-                (*pRaiz)->direita->custo = 0;
+                (*pRaiz)->direita->custo = (linha_final-i)+(coluna_final-j);
                 //printf("to no nó i:%d j:%d\n",i,j);
                 // printf("valor a minha direita é:%c\n\n",(*pRaiz)->direita->valor);
 
@@ -170,7 +170,7 @@ int constroi_arvore(No **pRaiz,int linha, int coluna, char M[linha][coluna], int
             (*pRaiz)->direita = (No *) malloc(sizeof (No));
             (*pRaiz)->direita->valor = '-';
             (*pRaiz)->direita->visitado=0;
-            (*pRaiz)->direita->custo = 0;
+            (*pRaiz)->direita->custo = (linha_final-i)+(coluna_final-j);
             //printf("to no nó i:%d j:%d\n",i,j);
             //printf("valor a minha direita é:%c\n\n",(*pRaiz)->direita->valor);
 
@@ -184,7 +184,7 @@ int constroi_arvore(No **pRaiz,int linha, int coluna, char M[linha][coluna], int
                 (*pRaiz)->cima = (No *) malloc(sizeof (No));
                 (*pRaiz)->cima->valor = 'A';
                 (*pRaiz)->cima->visitado=0;
-                (*pRaiz)->cima->custo = 0;
+                (*pRaiz)->cima->custo = (linha_final-i)+(coluna_final-j);
                // printf("to no nó i:%d j:%d\n",i,j);
                // printf("valor na cima é:%c\n\n",(*pRaiz)->cima->valor);
 
@@ -192,7 +192,7 @@ int constroi_arvore(No **pRaiz,int linha, int coluna, char M[linha][coluna], int
                 (*pRaiz)->cima = (No *) malloc(sizeof (No));
                 (*pRaiz)->cima->valor = M[i-1][j];
                 (*pRaiz)->cima->visitado=0;
-                (*pRaiz)->cima->custo = 0;
+                (*pRaiz)->cima->custo = (linha_final-i)+(coluna_final-j);
                 //printf("to no nó i:%d j:%d\n",i,j);
               //  printf("valor na cima é:%c\n\n",(*pRaiz)->cima->valor);
 
@@ -202,7 +202,7 @@ int constroi_arvore(No **pRaiz,int linha, int coluna, char M[linha][coluna], int
         }else{
             (*pRaiz)->cima = (No *) malloc(sizeof (No));
             (*pRaiz)->cima->valor = 'A';
-            (*pRaiz)->cima->custo = 0;
+            (*pRaiz)->cima->custo = (linha_final-i)+(coluna_final-j);
             //printf("to no nó i:%d j:%d\n",i,j);
            // printf("valor na cima é:%c\n\n",(*pRaiz)->cima->valor);
 
@@ -220,7 +220,7 @@ int constroi_arvore(No **pRaiz,int linha, int coluna, char M[linha][coluna], int
             indicador = 1;
             printf("\n\n<-- ");
 
-            constroi_arvore(&((*pRaiz)->esquerda),linha,coluna,M,i,j,controle,indicador,&(*pRaiz));
+            constroi_arvore(&((*pRaiz)->esquerda),linha,coluna,M,i,j,linha_final,coluna_final,controle,indicador,&(*pRaiz));
             j=j+1; 
 
          }
@@ -230,7 +230,7 @@ int constroi_arvore(No **pRaiz,int linha, int coluna, char M[linha][coluna], int
             i=i+1;
             indicador= 2;
             printf("\n\n|\nv ");
-            constroi_arvore(&((*pRaiz)->baixo),linha,coluna,M,i,j,controle,indicador,&(*pRaiz));
+            constroi_arvore(&((*pRaiz)->baixo),linha,coluna,M,i,j,linha_final,coluna_final,controle,indicador,&(*pRaiz));
             
             i=i-1;
          }
@@ -241,7 +241,7 @@ int constroi_arvore(No **pRaiz,int linha, int coluna, char M[linha][coluna], int
             j = j+1;
             indicador = 3;
             printf("\n--> ");
-            constroi_arvore(&((*pRaiz)->direita),linha,coluna,M,i,j,controle,indicador,&(*pRaiz));
+            constroi_arvore(&((*pRaiz)->direita),linha,coluna,M,i,j,linha_final,coluna_final,controle,indicador,&(*pRaiz));
             j=j-1;
 
          }
@@ -251,7 +251,7 @@ int constroi_arvore(No **pRaiz,int linha, int coluna, char M[linha][coluna], int
             i = i-1;
             indicador = 4;
             printf("\n^\n| ");
-            constroi_arvore(&((*pRaiz)->cima),linha,coluna,M,i,j,controle,indicador,&(*pRaiz));
+            constroi_arvore(&((*pRaiz)->cima),linha,coluna,M,i,j,linha_final,coluna_final,controle,indicador,&(*pRaiz));
             i = i+1;
 
             }
