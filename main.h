@@ -20,35 +20,42 @@ void constroi_matriz(int *linha,int *coluna,int *inicio_i,int *inicio_j,int *fim
 
 
 
-int constroi_arvore(No **pRaiz,int linha, int coluna, char M[linha][coluna], int linha_inico, int coluna_inicio,int linha_final,int coluna_final,int controle,int indicador,No **ptrpai){
-    int i = linha_inico;
+int constroi_arvore(No **pRaiz,int linha, int coluna, char M[linha][coluna], int linha_inicio, int coluna_inicio,int linha_final,int coluna_final,int controle,  int indicador,No **ptrpai, int m_antiloop[2][linha*coluna],int pos_atual,int pos_total,int v_filhos[linha*coluna],int v_indicador[linha*coluna]){
+    int i = linha_inicio;
     int j = coluna_inicio;
+    int controle_j=0;
     int modulo_custo = 0;
+    int tam_max=linha*coluna;
+    int ja_criado = 0;
+    printf("\nm[%d][%d]\n",i,j);
+    (*pRaiz)->visitado=1;
     
   
     if(M[i][j] == '$'){
         printf("\nfim encontrado\nm[%d][%d]\n",i,j);
         
-         (*pRaiz)->pai = &(*ptrpai);
+        (*pRaiz)->pai = &(*ptrpai);
 
         //checa aonde ta o valor procurado e sela o no
        
 
-            (*pRaiz)->esquerda = (No *) malloc(sizeof (No));
-            (*pRaiz)->esquerda->valor = '-';
-            (*pRaiz)->esquerda->visitado=0;
-            (*pRaiz)->esquerda->custo = 0;
-            (*pRaiz)->baixo = (No *) malloc(sizeof (No));
-            (*pRaiz)->baixo->valor = '-';
-            (*pRaiz)->baixo->custo = 0;
-            (*pRaiz)->direita = (No *) malloc(sizeof (No));
-            (*pRaiz)->direita->valor = '-';
-            (*pRaiz)->direita->custo = 0;
-            (*pRaiz)->cima = (No *) malloc(sizeof (No));
-            (*pRaiz)->cima->valor = '-';
-            (*pRaiz)->cima->custo = 0;
-            (*pRaiz)->custo=0;
-            
+        (*pRaiz)->esquerda = (No *) malloc(sizeof (No));
+        (*pRaiz)->esquerda->valor = '-';
+        (*pRaiz)->esquerda->visitado=0;
+        (*pRaiz)->esquerda->custo = 0;
+        (*pRaiz)->baixo = (No *) malloc(sizeof (No));
+        (*pRaiz)->baixo->valor = '-';
+        (*pRaiz)->baixo->custo = 0;
+        (*pRaiz)->direita = (No *) malloc(sizeof (No));
+        (*pRaiz)->direita->valor = '-';
+        (*pRaiz)->direita->custo = 0;
+        (*pRaiz)->cima = (No *) malloc(sizeof (No));
+        (*pRaiz)->cima->valor = '-';
+        (*pRaiz)->cima->custo = 0;
+        (*pRaiz)->custo=0;
+
+        return 0;
+        
 
 
         
@@ -58,6 +65,7 @@ int constroi_arvore(No **pRaiz,int linha, int coluna, char M[linha][coluna], int
 
         // if (*pRaiz == NULL){ // primeiro caso
         if (controle == 0){ // primeiro caso
+    
             *pRaiz =  (No *) malloc(sizeof (No));
             (*pRaiz)->valor = M[i][j];
             (*pRaiz)->visitado = 0;
@@ -72,13 +80,13 @@ int constroi_arvore(No **pRaiz,int linha, int coluna, char M[linha][coluna], int
             (*pRaiz)->custo_G=0;
             printf("inicio");
             controle = 1;
-            constroi_arvore(&(*pRaiz),linha,coluna,M,i,j,linha_final,coluna_final,controle,indicador,&(*pRaiz));
+            constroi_arvore(&(*pRaiz),linha,coluna,M,i,j,linha_final,coluna_final,controle,indicador,&(*pRaiz),m_antiloop,pos_atual,pos_total,v_filhos,v_indicador);
             return 0;
         
         }else{
         
        
-         (*pRaiz)->pai = &(*ptrpai);
+            (*pRaiz)->pai = &(*ptrpai);
        
 
 
@@ -97,132 +105,258 @@ int constroi_arvore(No **pRaiz,int linha, int coluna, char M[linha][coluna], int
                // printf("to no nó i:%d j:%d\n",i,j);
                 //printf("valor na esquerda é:%c\n\n",(*pRaiz)->esquerda->valor);
 
+                }else{
+                    for(int y=0;y<tam_max;y++){
+
+                        if(m_antiloop[0][y]<0){
+                                
+                            controle_j=y;
+                            y = tam_max;
+                            
+                        }else{
+
+                            if(m_antiloop[0][y]==(linha_inicio) && m_antiloop[1][y]==(coluna_inicio-1)){
+
+                                ja_criado=1;
+
+                                }
+
+
+                        }
+
+                    
+
+                    }
+
+                    if(ja_criado==0){
+                        (*pRaiz)->esquerda = (No *) malloc(sizeof (No));
+                        (*pRaiz)->esquerda->valor = M[i][j-1];
+                        (*pRaiz)->esquerda->visitado=0;
+                        (*pRaiz)->esquerda->custo = abs((linha_final-i))+abs((coluna_final-(j-1)));
+                        m_antiloop[0][controle_j]=linha_inicio;
+                        m_antiloop[1][controle_j]=coluna_inicio-1;
+                        printf("linha%d i%d   coluna%d j%d",linha,i,coluna,j);
+                        printf("\n\nesqManti[%d][%d]",m_antiloop[0][controle_j], m_antiloop[1][controle_j]);
+
+                    }else{
+                        (*pRaiz)->esquerda = (No *) malloc(sizeof (No));
+                        (*pRaiz)->esquerda->valor = 'A';
+
+                    }
+
+                    ja_criado = 0;
+                
+                
+              
+
+                }
+
+
             }else{
                 (*pRaiz)->esquerda = (No *) malloc(sizeof (No));
-                (*pRaiz)->esquerda->valor = M[i][j-1];
+                (*pRaiz)->esquerda->valor = 'A';
                 (*pRaiz)->esquerda->visitado=0;
-               
-                (*pRaiz)->esquerda->custo = abs((linha_final-i))+abs((coluna_final-(j-1)));
-               // printf("to no nó i:%d j:%d\n",i,j);
-                // printf("valor na esquerda é:%c\n\n",(*pRaiz)->esquerda->valor);
-
-            }
-
-
-        }else{
-            (*pRaiz)->esquerda = (No *) malloc(sizeof (No));
-            (*pRaiz)->esquerda->valor = 'A';
-            (*pRaiz)->esquerda->visitado=0;
-           
             
-           //printf("to no nó i:%d j:%d\n",i,j);
-            //printf("valor na esquerda é:%c\n\n",(*pRaiz)->esquerda->valor);
-
-        }
+            }
 
     
 
-        if(i+1 < linha ){
+            if(i+1 < linha ){
 
-            if(indicador==4){
+                if(indicador==4){
+                    (*pRaiz)->baixo = (No *) malloc(sizeof (No));
+                    (*pRaiz)->baixo->valor = 'A';
+                    (*pRaiz)->baixo->visitado=0;
+                   
+                }else{
+
+                     for(int y=0;y<tam_max;y++){
+
+                        if(m_antiloop[0][y]<0){
+                                
+                            controle_j=y;
+                            y = tam_max;
+                            
+                        }else{
+
+                            if(m_antiloop[0][y]==(linha_inicio+1) && m_antiloop[1][y]==(coluna_inicio)){
+
+                                ja_criado=1;
+
+                                }
+
+
+                        }
+
+                    
+
+                    }
+
+                    if(ja_criado==0){
+                        (*pRaiz)->baixo = (No *) malloc(sizeof (No));
+                        (*pRaiz)->baixo->valor = M[i+1][j];
+                        (*pRaiz)->baixo->visitado=0;
+                        (*pRaiz)->baixo->custo =abs((linha_final-(i+1)))+abs((coluna_final-j));
+                        m_antiloop[0][controle_j]=linha_inicio+1;
+                        m_antiloop[1][controle_j]=coluna_inicio;
+                        printf("\n\nbaixoManti[%d][%d]",m_antiloop[0][controle_j], m_antiloop[1][controle_j]);
+
+                    }else{
+                        (*pRaiz)->baixo = (No *) malloc(sizeof (No));
+                        (*pRaiz)->baixo->valor = 'A';
+
+                    }
+
+                    ja_criado = 0;
+
+
+                } 
+                    
+        
+
+            }else{
+
                 (*pRaiz)->baixo = (No *) malloc(sizeof (No));
                 (*pRaiz)->baixo->valor = 'A';
                 (*pRaiz)->baixo->visitado=0;
+            
+           
                 
-            
-                // printf("to no nó i:%d j:%d\n",i,j);
-             // printf("valor embaixo é:%c\n\n",(*pRaiz)->baixo->valor);
-
-            }else{
-
-
-                (*pRaiz)->baixo = (No *) malloc(sizeof (No));
-                (*pRaiz)->baixo->valor = M[i+1][j];
-                (*pRaiz)->baixo->visitado=0;
-               
-                (*pRaiz)->baixo->custo =abs((linha_final-(i+1)))+abs((coluna_final-j));
-                //printf("to no nó i:%d j:%d\n",i,j);
-                //printf("valor embaixo é:%c\n\n",(*pRaiz)->baixo->valor);
-
             }
-            
-
-        }else{
-
-            (*pRaiz)->baixo = (No *) malloc(sizeof (No));
-            (*pRaiz)->baixo->valor = 'A';
-            (*pRaiz)->baixo->visitado=0;
         
-           // printf("to no nó i:%d j:%d\n",i,j);
-            //printf("valor embaixo é:%c\n\n",(*pRaiz)->baixo->valor);
+                if(j+1 < coluna ){
 
-        }
-        
-        if(j+1 < coluna ){
+                    if(indicador == 1){
+                        (*pRaiz)->direita = (No *) malloc(sizeof (No));
+                        (*pRaiz)->direita->valor = '-';
+                        (*pRaiz)->direita->visitado=0;
+                
+                        // printf("to no nó i:%d j:%d\n",i,j);
+                        //printf("valor a minha direita é:%c\n\n",(*pRaiz)->direita->valor);
 
-            if(indicador == 1){
+                    }else{
+
+                        for(int y=0;y<tam_max;y++){
+
+                            if(m_antiloop[0][y]<0){
+                                
+                                controle_j=y;
+                                y = tam_max;
+                            
+                            }else{
+
+                                if(m_antiloop[0][y]==(linha_inicio) && m_antiloop[1][y]==(coluna_inicio+1)){
+
+                                    ja_criado=1;
+
+                                }
+
+
+                            }
+
+                    
+
+                        }
+
+                        if(ja_criado==0){
+                            (*pRaiz)->direita = (No *) malloc(sizeof (No));
+                            (*pRaiz)->direita->valor = M[i][j+1];
+                            (*pRaiz)->direita->visitado=1;
+                            (*pRaiz)->direita->custo = abs((linha_final-i))+abs((coluna_final-(j+1)));
+                            m_antiloop[0][controle_j]=linha_inicio;
+                            m_antiloop[1][controle_j]=coluna_inicio+1;
+                            printf("\n\ndireitaManti[%d][%d]",m_antiloop[0][controle_j], m_antiloop[1][controle_j]);
+
+                        }else{
+                            (*pRaiz)->direita = (No *) malloc(sizeof (No));
+                            (*pRaiz)->direita->valor = 'A';
+
+                        }
+
+                        ja_criado = 0;
+                            
+                        
+                        
+                    }
+
+
+
+                }else{
                 (*pRaiz)->direita = (No *) malloc(sizeof (No));
                 (*pRaiz)->direita->valor = '-';
                 (*pRaiz)->direita->visitado=0;
-        
-               // printf("to no nó i:%d j:%d\n",i,j);
+                
+                //printf("to no nó i:%d j:%d\n",i,j);
                 //printf("valor a minha direita é:%c\n\n",(*pRaiz)->direita->valor);
 
-            }else{
-                (*pRaiz)->direita = (No *) malloc(sizeof (No));
-                (*pRaiz)->direita->valor = M[i][j+1];
-                (*pRaiz)->direita->visitado=0;
+                } 
+
+
+                if(i-1 >= 0 ){
+
+                    if(indicador == 2){
                 
-                (*pRaiz)->direita->custo = abs((linha_final-i))+abs((coluna_final-(j+1)));
-                //printf("to no nó i:%d j:%d\n",i,j);
-                // printf("valor a minha direita é:%c\n\n",(*pRaiz)->direita->valor);
+                        (*pRaiz)->cima = (No *) malloc(sizeof (No));
+                        (*pRaiz)->cima->valor = 'A';
+                        (*pRaiz)->cima->visitado=0;
+                
+                        // printf("to no nó i:%d j:%d\n",i,j);
+                        // printf("valor na cima é:%c\n\n",(*pRaiz)->cima->valor);
 
-            }
+                    }else{
+
+                    
+                        for(int y=0;y<tam_max;y++){
+
+                            if(m_antiloop[0][y]<0){
+                                
+                                controle_j=y;
+                                y = tam_max;
+                            
+                            }else{
+
+                                if(m_antiloop[0][y]==(linha_inicio-1) && m_antiloop[1][y]==coluna_inicio){
+
+                                    ja_criado=1;
+
+                                }
 
 
+                            }
 
-        }else{
-            (*pRaiz)->direita = (No *) malloc(sizeof (No));
-            (*pRaiz)->direita->valor = '-';
-            (*pRaiz)->direita->visitado=0;
-            
-            //printf("to no nó i:%d j:%d\n",i,j);
-            //printf("valor a minha direita é:%c\n\n",(*pRaiz)->direita->valor);
+                    
 
-         } 
+                    }
+
+                    if(ja_criado==0){
+                        (*pRaiz)->cima = (No *) malloc(sizeof (No));
+                        (*pRaiz)->cima->valor = M[i-1][j];
+                        (*pRaiz)->cima->visitado=1;
+                        (*pRaiz)->cima->custo = abs((linha_final-(i-1)))+abs((coluna_final-j));
+                        m_antiloop[0][controle_j]=linha_inicio-1;
+                        m_antiloop[1][controle_j]=coluna_inicio;
+                        printf("\n\nManti[%d][%d]",m_antiloop[0][controle_j], m_antiloop[1][controle_j]);
+
+                    }else{
+                        (*pRaiz)->cima = (No *) malloc(sizeof (No));
+                        (*pRaiz)->cima->valor = 'A';
+
+                    }
+
+                    ja_criado = 0;
+                
+              
+                     }
 
 
-            if(i-1 >= 0 ){
-
-              if(indicador == 2){
-            
+            }else{
                 (*pRaiz)->cima = (No *) malloc(sizeof (No));
                 (*pRaiz)->cima->valor = 'A';
-                (*pRaiz)->cima->visitado=0;
-              
-               // printf("to no nó i:%d j:%d\n",i,j);
-               // printf("valor na cima é:%c\n\n",(*pRaiz)->cima->valor);
-
-            }else{
-                (*pRaiz)->cima = (No *) malloc(sizeof (No));
-                (*pRaiz)->cima->valor = M[i-1][j];
-                (*pRaiz)->cima->visitado=0;
             
-                (*pRaiz)->cima->custo = abs((linha_final-(i-1)))+abs((coluna_final-j));
                 //printf("to no nó i:%d j:%d\n",i,j);
-              //  printf("valor na cima é:%c\n\n",(*pRaiz)->cima->valor);
+                // printf("valor na cima é:%c\n\n",(*pRaiz)->cima->valor);
 
             }
-
-
-        }else{
-            (*pRaiz)->cima = (No *) malloc(sizeof (No));
-            (*pRaiz)->cima->valor = 'A';
-           
-            //printf("to no nó i:%d j:%d\n",i,j);
-           // printf("valor na cima é:%c\n\n",(*pRaiz)->cima->valor);
-
-         }
         
             
 
@@ -232,42 +366,48 @@ int constroi_arvore(No **pRaiz,int linha, int coluna, char M[linha][coluna], int
          // se for faz recursao pra ir criando os filhos
          // if(((*pRaiz)-> esquerda -> valor == '*') &&  (*pRaiz)-> esquerda->visitado == 0){
             if((*pRaiz)-> esquerda -> valor == '*' || (*pRaiz)-> esquerda -> valor == '$'){
-            j=j-1;
-            indicador = 1;
-            printf("\n\n<-- ");
 
-            constroi_arvore(&((*pRaiz)->esquerda),linha,coluna,M,i,j,linha_final,coluna_final,controle,indicador,&(*pRaiz));
-            j=j+1; 
+                pos_total=pos_total+1;
+                v_filhos[pos_total]= &(*pRaiz)->esquerda;
+                v_indicador[pos_total]=1;
+                j=j-1;
+                indicador = 1;
+                printf("\n\n<-- ");
+               
 
-         }
+                constroi_arvore(&((*pRaiz)->esquerda),linha,coluna,M,i,j,linha_final,coluna_final,controle,indicador,&(*pRaiz),m_antiloop);
+                j=j+1; 
+
+            }
         
 
-         if((*pRaiz)-> baixo -> valor == '*' || (*pRaiz)-> baixo -> valor == '$' ){
-            i=i+1;
-            indicador= 2;
-            printf("\n\n|\nv ");
-            constroi_arvore(&((*pRaiz)->baixo),linha,coluna,M,i,j,linha_final,coluna_final,controle,indicador,&(*pRaiz));
-            
-            i=i-1;
-         }
+            if((*pRaiz)-> baixo -> valor == '*' || (*pRaiz)-> baixo -> valor == '$'){
+                i=i+1;
+                indicador= 2;
+                printf("\n\n|\nv ");
+                constroi_arvore(&((*pRaiz)->baixo),linha,coluna,M,i,j,linha_final,coluna_final,controle,indicador,&(*pRaiz),m_antiloop);
+                
+                i=i-1;
+            }
         
 
          //if(((*pRaiz)-> direita -> valor == '*') &&  (*pRaiz)-> direita->visitado == 0){
-         if((*pRaiz)-> direita -> valor == '*' || (*pRaiz)-> direita -> valor == '$'){
-            j = j+1;
-            indicador = 3;
-            printf("\n--> ");
-            constroi_arvore(&((*pRaiz)->direita),linha,coluna,M,i,j,linha_final,coluna_final,controle,indicador,&(*pRaiz));
-            j=j-1;
+            
+            if((*pRaiz)-> direita -> valor == '*' || (*pRaiz)-> direita -> valor == '$' ){
+                j = j+1;
+                indicador = 3;
+                printf("\n--> ");
+                constroi_arvore(&((*pRaiz)->direita),linha,coluna,M,i,j,linha_final,coluna_final,controle,indicador,&(*pRaiz),m_antiloop);
+                j=j-1;
 
-         }
+            }
 
 
            if((*pRaiz)-> cima -> valor == '*' || (*pRaiz)-> cima -> valor == '$'){
             i = i-1;
             indicador = 4;
             printf("\n^\n| ");
-            constroi_arvore(&((*pRaiz)->cima),linha,coluna,M,i,j,linha_final,coluna_final,controle,indicador,&(*pRaiz));
+            constroi_arvore(&((*pRaiz)->cima),linha,coluna,M,i,j,linha_final,coluna_final,controle,indicador,&(*pRaiz),m_antiloop);
             i = i+1;
 
             }
@@ -278,7 +418,8 @@ int constroi_arvore(No **pRaiz,int linha, int coluna, char M[linha][coluna], int
         }
 
     }
-   
+
+ 
     
 
 

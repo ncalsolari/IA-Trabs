@@ -57,6 +57,8 @@ printf("b");
     int coluna_inicio=0;
     int linha_final=0;
     int coluna_final=0;
+
+    int m_antiloop[2][linha*coluna];
 /*
     int * ptr_linha;
     int * ptr_coluna;
@@ -76,8 +78,13 @@ printf("b");
     constroi_matriz(ptr_linha,ptr_coluna,ptr_linha_inicio,ptr_coluna_inicio,ptr_linha_final,ptr_coluna_final);
 */
   
+    for(i=0;i<(linha*coluna);i++){
+        m_antiloop[0][i]=-1;
+        m_antiloop[1][i]=-1;
 
-    for( i; i<linha;i++){
+    }
+
+    for( i=0; i<linha;i++){
 
       
 
@@ -85,6 +92,7 @@ printf("b");
             
             matriz[i][j]=buffer;
             matriz_global[i][j]=buffer;
+           
             if(matriz[i][j]=='#'){
                 linha_inicio = i;
                 coluna_inicio = j;
@@ -94,6 +102,7 @@ printf("b");
                 linha_final = i;
                 coluna_final = j;
             }
+           
 
             
             fread(&buffer,1,1,arq_entrada); 
@@ -113,10 +122,10 @@ printf("b");
     int indicador = 0;
     No **teste;
     
-     constroi_arvore(ptrRaiz2,linha,coluna,matriz,linha_inicio,coluna_inicio,linha_final,coluna_final,controle,indicador,teste);
+     constroi_arvore(ptrRaiz2,linha,coluna,matriz,linha_inicio,coluna_inicio,linha_final,coluna_final,controle,indicador,teste,m_antiloop);
 
 
-    printf("\n");
+    printf("construiu\n");
 
      for(int i=0; i<linha;i++){
 
@@ -175,7 +184,7 @@ printf("b");
     }
 
 
-    //busca_largura(ptrRaiz2,linha,coluna,tam_max,v_filhos,matriz_num,pos_atual,pos_total,v_direcao,direcao,matriz,linha_inicio,coluna_inicio);
+    busca_largura(ptrRaiz2,linha,coluna,tam_max,v_filhos,matriz_num,pos_atual,pos_total,v_direcao,direcao,matriz,linha_inicio,coluna_inicio);
    
    int matriz_custo[3][tam_max];
    int matriz_direcao[2][tam_max];
@@ -214,7 +223,7 @@ printf("b");
    
    
    
-    busca_a_estrela(ptrRaiz2,custoF,custoG,tam_max,matriz_custo,matriz_num,linha,coluna,direcao,matriz_direcao,matriz,linha_inicio,coluna_inicio);
+  //  busca_a_estrela(ptrRaiz2,custoF,custoG,tam_max,matriz_custo,matriz_num,linha,coluna,direcao,matriz_direcao,matriz,linha_inicio,coluna_inicio);
     
    
    free (ptrRaiz);
