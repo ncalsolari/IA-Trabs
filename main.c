@@ -147,7 +147,7 @@ printf("b");
     }
     
   
-   busca_profundidade(ptrRaiz2,linha_inicio,coluna_inicio,ptrfinal,posicao_caminho,tam_max,vetor_caminho,linha,coluna,matriz,linha_inicio,coluna_inicio);
+   //busca_profundidade(ptrRaiz2,linha_inicio,coluna_inicio,ptrfinal,posicao_caminho,tam_max,vetor_caminho,linha,coluna,matriz,linha_inicio,coluna_inicio);
 
     int pos_atual = 0;
     int pos_total = 0;
@@ -167,6 +167,7 @@ printf("b");
         }
     }
 
+    //reseta a matriz
     for (int i=0;i<linha;i++){
         for(int j=0;j<coluna;j++){
             matriz[i][j]=matriz_global[i][j];
@@ -174,7 +175,48 @@ printf("b");
     }
 
 
-    busca_largura(ptrRaiz2,linha,coluna,tam_max,v_filhos,matriz_num,pos_atual,pos_total,v_direcao,direcao,matriz,linha_inicio,coluna_inicio);
+    //busca_largura(ptrRaiz2,linha,coluna,tam_max,v_filhos,matriz_num,pos_atual,pos_total,v_direcao,direcao,matriz,linha_inicio,coluna_inicio);
+   
+   int matriz_custo[3][tam_max];
+   int matriz_direcao[2][tam_max];
+   int vetor_ordena[tam_max];
+   int custoF = 0;
+   int custoG = 0;
+
+    for(int i =0; i<tam_max;i++){
+        vetor_ordena[i]=0;
+    }
+
+    for (int i=0;i<3;i++){
+        for(int j=0;j<tam_max;j++){
+            matriz_custo[i][j]=0;
+        }
+    }
+
+     for (int i=0;i<2;i++){
+        for(int j=0;j<tam_max;j++){
+            matriz_direcao[i][j]=0;
+        }
+    }
+   
+   //reseta a matriz
+    for (int i=0;i<linha;i++){
+        for(int j=0;j<coluna;j++){
+            matriz[i][j]=matriz_global[i][j];
+        }
+    }
+   
+   for (int i=0;i<tam_max;i++){
+        for(int j=0;j<tam_max;j++){
+            matriz_num[i][j]=0;
+        }
+    }
+   
+   
+   
+    busca_a_estrela(ptrRaiz2,custoF,custoG,tam_max,matriz_custo,matriz_num,linha,coluna,direcao,matriz_direcao,matriz,linha_inicio,coluna_inicio);
+    
+   
    free (ptrRaiz);
   // free(ptrRaiz2);
   // free(teste);
