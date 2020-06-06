@@ -118,11 +118,26 @@ printf("b");
         fread(&buffer,1,1,arq_entrada);
 
     }
+
+    int pos_atual = 0;
+    int pos_total = 0;
     int controle = 0;
     int indicador = 0;
+    int v_indicador[linha*coluna];
+    int v_proximos_nos[linha*coluna];
+    int v_pais[linha*coluna];
+    int posicao_i[linha*coluna];
+    int posicao_j[linha*coluna];
+
+    for(int x=0; x<(linha*coluna);x++){
+        v_indicador[x]=0;
+        v_proximos_nos[x]=0;
+        v_pais[x]=0;
+    }
     No **teste;
+
     
-     constroi_arvore(ptrRaiz2,linha,coluna,matriz,linha_inicio,coluna_inicio,linha_final,coluna_final,controle,indicador,teste,m_antiloop);
+     constroi_arvore(ptrRaiz2,linha,coluna,matriz,linha_inicio,coluna_inicio,linha_final,coluna_final,controle,indicador,teste,m_antiloop,pos_atual,pos_total,v_proximos_nos,v_indicador,v_pais,posicao_i,posicao_j);
 
 
     printf("construiu\n");
@@ -156,19 +171,21 @@ printf("b");
     }
     
   
-   //busca_profundidade(ptrRaiz2,linha_inicio,coluna_inicio,ptrfinal,posicao_caminho,tam_max,vetor_caminho,linha,coluna,matriz,linha_inicio,coluna_inicio);
+   busca_profundidade(ptrRaiz2,linha_inicio,coluna_inicio,ptrfinal,posicao_caminho,tam_max,vetor_caminho,linha,coluna,matriz,linha_inicio,coluna_inicio);
 
-    int pos_atual = 0;
-    int pos_total = 0;
+    pos_atual = 0;
+    pos_total = 0;
     int direcao = 0;
 
     int matriz_num [tam_max][tam_max];
 
     int v_filhos[tam_max];
     int v_direcao[tam_max];
+    
     for(int i = 0;i<tam_max;i++){
         v_filhos[i]=0;
         v_direcao[i]=0;
+        
     }
     for (int i=0;i<tam_max;i++){
         for(int j=0;j<tam_max;j++){
@@ -184,7 +201,7 @@ printf("b");
     }
 
 
-    busca_largura(ptrRaiz2,linha,coluna,tam_max,v_filhos,matriz_num,pos_atual,pos_total,v_direcao,direcao,matriz,linha_inicio,coluna_inicio);
+   // busca_largura(ptrRaiz2,linha,coluna,tam_max,v_filhos,matriz_num,pos_atual,pos_total,v_direcao,direcao,matriz,linha_inicio,coluna_inicio);
    
    int matriz_custo[3][tam_max];
    int matriz_direcao[2][tam_max];
@@ -221,7 +238,7 @@ printf("b");
         }
     }
    
-   
+  
    
   //  busca_a_estrela(ptrRaiz2,custoF,custoG,tam_max,matriz_custo,matriz_num,linha,coluna,direcao,matriz_direcao,matriz,linha_inicio,coluna_inicio);
     

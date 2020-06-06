@@ -20,17 +20,19 @@ void constroi_matriz(int *linha,int *coluna,int *inicio_i,int *inicio_j,int *fim
 
 
 
-int constroi_arvore(No **pRaiz,int linha, int coluna, char M[linha][coluna], int linha_inicio, int coluna_inicio,int linha_final,int coluna_final,int controle,  int indicador,No **ptrpai, int m_antiloop[2][linha*coluna],int pos_atual,int pos_total,int v_filhos[linha*coluna],int v_indicador[linha*coluna]){
+int constroi_arvore(No **pRaiz,int linha, int coluna, char M[linha][coluna], int linha_inicio, int coluna_inicio,int linha_final,int coluna_final,int controle,  int indicador,No **ptrpai, int m_antiloop[2][linha*coluna],int pos_atual,int pos_total,int v_filhos[linha*coluna],int v_indicador[linha*coluna],int v_pais[linha*coluna],int posicao_i[linha*coluna],int posicao_j[linha*coluna]){
     int i = linha_inicio;
     int j = coluna_inicio;
     int controle_j=0;
     int modulo_custo = 0;
     int tam_max=linha*coluna;
     int ja_criado = 0;
-    printf("\nm[%d][%d]\n",i,j);
+    
     (*pRaiz)->visitado=1;
     
-  
+     printf("\nM[%d][%d] no:%d\n",i,j,&(*pRaiz));
+    
+   
     if(M[i][j] == '$'){
         printf("\nfim encontrado\nm[%d][%d]\n",i,j);
         
@@ -53,6 +55,47 @@ int constroi_arvore(No **pRaiz,int linha, int coluna, char M[linha][coluna], int
         (*pRaiz)->cima->valor = '-';
         (*pRaiz)->cima->custo = 0;
         (*pRaiz)->custo=0;
+
+
+
+
+            pos_atual=pos_atual+1; 
+            indicador = v_indicador[pos_atual];
+            pRaiz = v_filhos[pos_atual];
+            ptrpai = v_pais[pos_atual];
+
+            if(indicador==1){
+                
+                i=posicao_i[pos_atual];
+                j=posicao_j[pos_atual];
+                constroi_arvore(&(*pRaiz),linha,coluna,M,i,j,linha_final,coluna_final,controle,indicador,&(*ptrpai),m_antiloop,pos_atual,pos_total,v_filhos,v_indicador,v_pais,posicao_i,posicao_j);
+
+            }
+
+            if(indicador==2){
+                
+                 i=posicao_i[pos_atual];
+                j=posicao_j[pos_atual];
+                constroi_arvore(&(*pRaiz),linha,coluna,M,i,j,linha_final,coluna_final,controle,indicador,&(*ptrpai),m_antiloop,pos_atual,pos_total,v_filhos,v_indicador,v_pais,posicao_i,posicao_j);
+
+            }
+
+            if(indicador==3){
+                
+                i=posicao_i[pos_atual];
+                j=posicao_j[pos_atual];
+                constroi_arvore(&(*pRaiz),linha,coluna,M,i,j,linha_final,coluna_final,controle,indicador,&(*ptrpai),m_antiloop,pos_atual,pos_total,v_filhos,v_indicador,v_pais,posicao_i,posicao_j);
+
+            }
+
+            if(indicador==4){
+               
+                i=posicao_i[pos_atual];
+                j=posicao_j[pos_atual];
+                constroi_arvore(&(*pRaiz),linha,coluna,M,i,j,linha_final,coluna_final,controle,indicador,&(*ptrpai),m_antiloop,pos_atual,pos_total,v_filhos,v_indicador,v_pais,posicao_i,posicao_j);
+
+            }
+
 
         return 0;
         
@@ -80,20 +123,21 @@ int constroi_arvore(No **pRaiz,int linha, int coluna, char M[linha][coluna], int
             (*pRaiz)->custo_G=0;
             printf("inicio");
             controle = 1;
-            constroi_arvore(&(*pRaiz),linha,coluna,M,i,j,linha_final,coluna_final,controle,indicador,&(*pRaiz),m_antiloop,pos_atual,pos_total,v_filhos,v_indicador);
+            constroi_arvore(&(*pRaiz),linha,coluna,M,i,j,linha_final,coluna_final,controle,indicador,&(*pRaiz),m_antiloop,pos_atual,pos_total,v_filhos,v_indicador,v_pais,posicao_i,posicao_j);
             return 0;
         
         }else{
-        
+            
        
             (*pRaiz)->pai = &(*ptrpai);
-       
+      
 
 
 
 
             // checa se o redor do no eh valido pra receber valor
             if(j-1 >= 0 ){
+                ja_criado=0;
 
               if(indicador == 3){
             
@@ -117,7 +161,9 @@ int constroi_arvore(No **pRaiz,int linha, int coluna, char M[linha][coluna], int
 
                             if(m_antiloop[0][y]==(linha_inicio) && m_antiloop[1][y]==(coluna_inicio-1)){
 
+                               if(M[i][j-1] != '$'){
                                 ja_criado=1;
+                                }
 
                                 }
 
@@ -131,12 +177,11 @@ int constroi_arvore(No **pRaiz,int linha, int coluna, char M[linha][coluna], int
                     if(ja_criado==0){
                         (*pRaiz)->esquerda = (No *) malloc(sizeof (No));
                         (*pRaiz)->esquerda->valor = M[i][j-1];
+                        printf("criou esquerda com valor:%c\n",(*pRaiz)->esquerda->valor);
                         (*pRaiz)->esquerda->visitado=0;
                         (*pRaiz)->esquerda->custo = abs((linha_final-i))+abs((coluna_final-(j-1)));
                         m_antiloop[0][controle_j]=linha_inicio;
                         m_antiloop[1][controle_j]=coluna_inicio-1;
-                        printf("linha%d i%d   coluna%d j%d",linha,i,coluna,j);
-                        printf("\n\nesqManti[%d][%d]",m_antiloop[0][controle_j], m_antiloop[1][controle_j]);
 
                     }else{
                         (*pRaiz)->esquerda = (No *) malloc(sizeof (No));
@@ -144,7 +189,7 @@ int constroi_arvore(No **pRaiz,int linha, int coluna, char M[linha][coluna], int
 
                     }
 
-                    ja_criado = 0;
+                     
                 
                 
               
@@ -162,6 +207,7 @@ int constroi_arvore(No **pRaiz,int linha, int coluna, char M[linha][coluna], int
     
 
             if(i+1 < linha ){
+                ja_criado=0;
 
                 if(indicador==4){
                     (*pRaiz)->baixo = (No *) malloc(sizeof (No));
@@ -181,7 +227,9 @@ int constroi_arvore(No **pRaiz,int linha, int coluna, char M[linha][coluna], int
 
                             if(m_antiloop[0][y]==(linha_inicio+1) && m_antiloop[1][y]==(coluna_inicio)){
 
-                                ja_criado=1;
+                                 if(M[i+1][j] != '$'){
+                                        ja_criado=1;
+                                    }
 
                                 }
 
@@ -195,11 +243,11 @@ int constroi_arvore(No **pRaiz,int linha, int coluna, char M[linha][coluna], int
                     if(ja_criado==0){
                         (*pRaiz)->baixo = (No *) malloc(sizeof (No));
                         (*pRaiz)->baixo->valor = M[i+1][j];
+                        printf("criou baixo com valor:%c\n",(*pRaiz)->baixo->valor);
                         (*pRaiz)->baixo->visitado=0;
                         (*pRaiz)->baixo->custo =abs((linha_final-(i+1)))+abs((coluna_final-j));
                         m_antiloop[0][controle_j]=linha_inicio+1;
                         m_antiloop[1][controle_j]=coluna_inicio;
-                        printf("\n\nbaixoManti[%d][%d]",m_antiloop[0][controle_j], m_antiloop[1][controle_j]);
 
                     }else{
                         (*pRaiz)->baixo = (No *) malloc(sizeof (No));
@@ -207,7 +255,7 @@ int constroi_arvore(No **pRaiz,int linha, int coluna, char M[linha][coluna], int
 
                     }
 
-                    ja_criado = 0;
+                    //ja_criado = 0;
 
 
                 } 
@@ -225,6 +273,7 @@ int constroi_arvore(No **pRaiz,int linha, int coluna, char M[linha][coluna], int
             }
         
                 if(j+1 < coluna ){
+                    ja_criado=0;
 
                     if(indicador == 1){
                         (*pRaiz)->direita = (No *) malloc(sizeof (No));
@@ -247,7 +296,9 @@ int constroi_arvore(No **pRaiz,int linha, int coluna, char M[linha][coluna], int
 
                                 if(m_antiloop[0][y]==(linha_inicio) && m_antiloop[1][y]==(coluna_inicio+1)){
 
-                                    ja_criado=1;
+                                     if(M[i][j+1] != '$'){
+                                        ja_criado=1;
+                                    }
 
                                 }
 
@@ -261,11 +312,11 @@ int constroi_arvore(No **pRaiz,int linha, int coluna, char M[linha][coluna], int
                         if(ja_criado==0){
                             (*pRaiz)->direita = (No *) malloc(sizeof (No));
                             (*pRaiz)->direita->valor = M[i][j+1];
+                            printf("criou direita com valor:%c\n",(*pRaiz)->direita->valor);
                             (*pRaiz)->direita->visitado=1;
                             (*pRaiz)->direita->custo = abs((linha_final-i))+abs((coluna_final-(j+1)));
                             m_antiloop[0][controle_j]=linha_inicio;
                             m_antiloop[1][controle_j]=coluna_inicio+1;
-                            printf("\n\ndireitaManti[%d][%d]",m_antiloop[0][controle_j], m_antiloop[1][controle_j]);
 
                         }else{
                             (*pRaiz)->direita = (No *) malloc(sizeof (No));
@@ -273,7 +324,7 @@ int constroi_arvore(No **pRaiz,int linha, int coluna, char M[linha][coluna], int
 
                         }
 
-                        ja_criado = 0;
+                       // ja_criado = 0;
                             
                         
                         
@@ -293,6 +344,7 @@ int constroi_arvore(No **pRaiz,int linha, int coluna, char M[linha][coluna], int
 
 
                 if(i-1 >= 0 ){
+                    ja_criado=0;
 
                     if(indicador == 2){
                 
@@ -316,8 +368,11 @@ int constroi_arvore(No **pRaiz,int linha, int coluna, char M[linha][coluna], int
                             }else{
 
                                 if(m_antiloop[0][y]==(linha_inicio-1) && m_antiloop[1][y]==coluna_inicio){
-
-                                    ja_criado=1;
+                                    if(M[i-1][j] != '$'){
+                                        printf("M[%d][%d]   nno%d\n\n",(i-1),j,&(*pRaiz));
+                                        ja_criado=1;
+                                    }
+                                    
 
                                 }
 
@@ -326,24 +381,25 @@ int constroi_arvore(No **pRaiz,int linha, int coluna, char M[linha][coluna], int
 
                     
 
-                    }
+                        }
 
-                    if(ja_criado==0){
-                        (*pRaiz)->cima = (No *) malloc(sizeof (No));
-                        (*pRaiz)->cima->valor = M[i-1][j];
-                        (*pRaiz)->cima->visitado=1;
-                        (*pRaiz)->cima->custo = abs((linha_final-(i-1)))+abs((coluna_final-j));
-                        m_antiloop[0][controle_j]=linha_inicio-1;
-                        m_antiloop[1][controle_j]=coluna_inicio;
-                        printf("\n\nManti[%d][%d]",m_antiloop[0][controle_j], m_antiloop[1][controle_j]);
+                        printf("fora M[%d][%d]   nno%d\n\nVARIAVEL CRIADO: %d",(i-1),j,&(*pRaiz),ja_criado);
+                        if(ja_criado==0){
+                            (*pRaiz)->cima = (No *) malloc(sizeof (No));
+                            (*pRaiz)->cima->valor = M[i-1][j];
+                            (*pRaiz)->cima->visitado=1;
+                            printf("criou cima com valor:%c\n",(*pRaiz)->cima->valor);
+                            (*pRaiz)->cima->custo = abs((linha_final-(i-1)))+abs((coluna_final-j));
+                            m_antiloop[0][controle_j]=linha_inicio-1;
+                            m_antiloop[1][controle_j]=coluna_inicio;
 
-                    }else{
-                        (*pRaiz)->cima = (No *) malloc(sizeof (No));
-                        (*pRaiz)->cima->valor = 'A';
+                        }else{
+                            (*pRaiz)->cima = (No *) malloc(sizeof (No));
+                            (*pRaiz)->cima->valor = 'A';
 
-                    }
+                        }
 
-                    ja_criado = 0;
+                            //ja_criado = 0;
                 
               
                      }
@@ -364,53 +420,124 @@ int constroi_arvore(No **pRaiz,int linha, int coluna, char M[linha][coluna], int
        
          //checa se eh caminho valido
          // se for faz recursao pra ir criando os filhos
-         // if(((*pRaiz)-> esquerda -> valor == '*') &&  (*pRaiz)-> esquerda->visitado == 0){
+            indicador=0; // se n tiver nenhum caminho ele nao chama a func dnv e termina essa etapa
             if((*pRaiz)-> esquerda -> valor == '*' || (*pRaiz)-> esquerda -> valor == '$'){
 
                 pos_total=pos_total+1;
                 v_filhos[pos_total]= &(*pRaiz)->esquerda;
+                v_pais[pos_total] = &(*pRaiz);
+                posicao_i[pos_total]=i;
+                posicao_j[pos_total]=j-1;
                 v_indicador[pos_total]=1;
-                j=j-1;
-                indicador = 1;
+             
                 printf("\n\n<-- ");
                
 
-                constroi_arvore(&((*pRaiz)->esquerda),linha,coluna,M,i,j,linha_final,coluna_final,controle,indicador,&(*pRaiz),m_antiloop);
-                j=j+1; 
+              
 
             }
         
 
             if((*pRaiz)-> baixo -> valor == '*' || (*pRaiz)-> baixo -> valor == '$'){
-                i=i+1;
-                indicador= 2;
+
+                pos_total=pos_total+1;
+                v_filhos[pos_total]= &(*pRaiz)->baixo;
+                v_pais[pos_total] = &(*pRaiz);
+                posicao_i[pos_total]=i+1;
+                posicao_j[pos_total]=j;
+                v_indicador[pos_total]=2;
+             
                 printf("\n\n|\nv ");
-                constroi_arvore(&((*pRaiz)->baixo),linha,coluna,M,i,j,linha_final,coluna_final,controle,indicador,&(*pRaiz),m_antiloop);
-                
-                i=i-1;
+               
+            
             }
         
 
          //if(((*pRaiz)-> direita -> valor == '*') &&  (*pRaiz)-> direita->visitado == 0){
             
             if((*pRaiz)-> direita -> valor == '*' || (*pRaiz)-> direita -> valor == '$' ){
-                j = j+1;
-                indicador = 3;
+             
+                pos_total=pos_total+1;
+                
+                v_filhos[pos_total]= &(*pRaiz)->direita;
+                v_pais[pos_total] = &(*pRaiz);
+                posicao_i[pos_total]=i;
+                posicao_j[pos_total]=j+1;
+                 
+                v_indicador[pos_total]=3;
                 printf("\n--> ");
-                constroi_arvore(&((*pRaiz)->direita),linha,coluna,M,i,j,linha_final,coluna_final,controle,indicador,&(*pRaiz),m_antiloop);
-                j=j-1;
-
+               
             }
 
 
            if((*pRaiz)-> cima -> valor == '*' || (*pRaiz)-> cima -> valor == '$'){
-            i = i-1;
-            indicador = 4;
-            printf("\n^\n| ");
-            constroi_arvore(&((*pRaiz)->cima),linha,coluna,M,i,j,linha_final,coluna_final,controle,indicador,&(*pRaiz),m_antiloop);
-            i = i+1;
+                pos_total=pos_total+1;
+                v_filhos[pos_total]= &(*pRaiz)->cima;
+                v_pais[pos_total] = &(*pRaiz);
+                posicao_i[pos_total]=i-1;
+                posicao_j[pos_total]=j;
+                v_indicador[pos_total]=4;
+            
+                printf("\n^\n| ");
+            
 
             }
+            
+            pos_atual=pos_atual+1;
+            
+            indicador = v_indicador[pos_atual];
+            printf("posicao atual: %d ",pos_atual);
+            printf("indicador: %d\n",v_indicador[pos_atual]);
+            printf("Vetor filhos:");
+            for(int k = 0;k<tam_max;k++){
+                printf( "%d   ",v_filhos[k]);
+                
+            }
+            
+            
+            pRaiz = v_filhos[pos_atual];
+            ptrpai = v_pais[pos_atual];
+
+            if(indicador==1){
+                
+                i=posicao_i[pos_atual];
+                j=posicao_j[pos_atual];
+                constroi_arvore(&(*pRaiz),linha,coluna,M,i,j,linha_final,coluna_final,controle,indicador,&(*ptrpai),m_antiloop,pos_atual,pos_total,v_filhos,v_indicador,v_pais,posicao_i,posicao_j);
+
+
+            }
+
+            if(indicador==2){
+                
+                 i=posicao_i[pos_atual];
+                j=posicao_j[pos_atual];
+                constroi_arvore(&(*pRaiz),linha,coluna,M,i,j,linha_final,coluna_final,controle,indicador,&(*ptrpai),m_antiloop,pos_atual,pos_total,v_filhos,v_indicador,v_pais,posicao_i,posicao_j);
+
+
+            }
+
+            if(indicador==3){
+                
+               i=posicao_i[pos_atual];
+                j=posicao_j[pos_atual];
+
+                constroi_arvore(&(*pRaiz),linha,coluna,M,i,j,linha_final,coluna_final,controle,indicador,&(*ptrpai),m_antiloop,pos_atual,pos_total,v_filhos,v_indicador,v_pais,posicao_i,posicao_j);
+
+
+            }
+
+            if(indicador==4){
+               
+                i=posicao_i[pos_atual];
+                j=posicao_j[pos_atual];
+
+                constroi_arvore(&(*pRaiz),linha,coluna,M,i,j,linha_final,coluna_final,controle,indicador,&(*ptrpai),m_antiloop,pos_atual,pos_total,v_filhos,v_indicador,v_pais,posicao_i,posicao_j);
+
+
+            }
+
+            
+
         
 
             return 0;
@@ -703,7 +830,8 @@ int busca_profundidade(No **pRaiz, int linha, int coluna,int *final,int posicao_
 int busca_largura(No **pRaiz,int linha, int coluna,int tam_max,int v_filhos[],int M[tam_max][tam_max],int pos_atual,int pos_total,int v_direcao[],int direcao,char m[linha][coluna],int l_inic, int c_inic){
 
       
-    printf("nova func\nto no ponteiro:%d   %d\n\n",&(*pRaiz),M[0][0]);
+    printf("nova func\nto no ponteiro:%d   %c\n\n",&(*pRaiz),(*pRaiz)->valor);
+    printf("valor a minha esquerda:%c\nvalor embaixo:%c\nvalor a minha direita:%c\nvalor acima:%c\n",(*pRaiz)->esquerda->valor,(*pRaiz)->esquerda->valor,(*pRaiz)->baixo->valor,(*pRaiz)->direita->valor,(*pRaiz)->cima->valor);
     int controle_i=0;
     int controle_j=0;
     int end_pai;
@@ -812,8 +940,8 @@ int busca_largura(No **pRaiz,int linha, int coluna,int tam_max,int v_filhos[],in
             v_filhos[pos_total]= &(*pRaiz)->esquerda;
             v_direcao[pos_total]=1;
            
-            // printf("valor pelo ponteiro: %d\n",&(*pRaiz)->esquerda);
-            // printf("esquerda end pai:%d\n",(*pRaiz)->esquerda->pai);
+             printf("valor pelo ponteiro: %d\n",&(*pRaiz)->esquerda);
+             printf("esquerda end pai:%d\n",(*pRaiz)->esquerda->pai);
             
         }
         if((*pRaiz)->baixo->valor == '*' || (*pRaiz)->baixo->valor == '$'){
@@ -822,8 +950,8 @@ int busca_largura(No **pRaiz,int linha, int coluna,int tam_max,int v_filhos[],in
             pos_total=pos_total+1;
             v_filhos[pos_total]= &(*pRaiz)->baixo;
             v_direcao[pos_total]=2;
-            //printf("valor pelo ponteiro: %d\n",&(*pRaiz)->baixo);
-           // printf("baixo end pai:%d\n",(*pRaiz)->baixo->pai);
+            printf("valor pelo ponteiro: %d\n",&(*pRaiz)->baixo);
+            printf("baixo end pai:%d\n",(*pRaiz)->baixo->pai);
             
         }
         if((*pRaiz)->direita->valor == '*' || (*pRaiz)->direita->valor == '$'){
@@ -831,8 +959,8 @@ int busca_largura(No **pRaiz,int linha, int coluna,int tam_max,int v_filhos[],in
             pos_total=pos_total+1;
             v_filhos[pos_total]= &(*pRaiz)->direita;
             v_direcao[pos_total]=3;
-            // printf("valor pelo ponteiro: %d\n",&(*pRaiz)->direita);
-            // printf("direita end pai:%d\n",(*pRaiz)->direita->pai);
+             printf("valor pelo ponteiro: %d\n",&(*pRaiz)->direita);
+             printf("direita end pai:%d\n",(*pRaiz)->direita->pai);
             
         }
         if((*pRaiz)->cima->valor == '*' || (*pRaiz)->cima->valor == '$'){
