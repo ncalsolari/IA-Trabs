@@ -549,7 +549,7 @@ int busca_profundidade(No **pRaiz, int linha, int coluna,int *final,int posicao_
 
 
        
-
+        /*
         for(int i=0; i<lin;i++){
 
             for(int j = 0; j<col; j ++){
@@ -558,17 +558,18 @@ int busca_profundidade(No **pRaiz, int linha, int coluna,int *final,int posicao_
             printf("\n");
 
         }
+        */
        
         int x = 0;
         while(vetor_caminho[x]!='@'){
 
             if(vetor_caminho[x]=='<'){
-                sleep(1);
-                system("clear");
+              
                 col_inic=col_inic-1;
                 M[lin_inic][col_inic] = 'o';
+                printf("(%d,%d) ",lin_inic,col_inic);
                 x=x+1;
-
+                /*
                 for(int i=0; i<lin;i++){
 
                     for(int j = 0; j<col; j ++){
@@ -581,18 +582,19 @@ int busca_profundidade(No **pRaiz, int linha, int coluna,int *final,int posicao_
                     
 
                 }
+                */
 
 
 
             }
 
             if(vetor_caminho[x]=='v'){
-                sleep(1);
-                system("clear");
+                
                 lin_inic = lin_inic+1;
                 M[lin_inic][col_inic] = 'o';
+                printf("(%d,%d) ",lin_inic,col_inic);
                 x=x+1;
-
+                /*
                 for(int i=0; i<lin;i++){
 
                     for(int j = 0; j<col; j ++){
@@ -604,18 +606,19 @@ int busca_profundidade(No **pRaiz, int linha, int coluna,int *final,int posicao_
                     
 
                 }
+                */
 
 
 
             }
 
             if(vetor_caminho[x]=='>'){
-                sleep(1);
-                system("clear");
+               
                 col_inic=col_inic+1;
                 M[lin_inic][col_inic] = 'o';
+                printf("(%d,%d) ",lin_inic,col_inic);
                 x=x+1;
-
+                /*
                 for(int i=0; i<lin;i++){
 
                     for(int j = 0; j<col; j ++){
@@ -627,18 +630,19 @@ int busca_profundidade(No **pRaiz, int linha, int coluna,int *final,int posicao_
                     
 
                 }
+                */
 
 
 
             }
 
             if(vetor_caminho[x]=='^'){
-                sleep(1);
-                system("clear");
+               
                 lin_inic=lin_inic-1;
                 M[lin_inic][col_inic] = 'o';
+                printf("(%d,%d) ",lin_inic,col_inic);
                 x=x+1;
-
+                /*
                 for(int i=0; i<lin;i++){
 
                     for(int j = 0; j<col; j ++){
@@ -650,6 +654,7 @@ int busca_profundidade(No **pRaiz, int linha, int coluna,int *final,int posicao_
                     
 
                 }
+                */
 
 
 
@@ -861,15 +866,11 @@ int busca_largura(No **pRaiz,int linha, int coluna,int tam_max,int v_filhos[],in
     if((*pRaiz)->valor == '$'){
 
       
-        for(int i = 1;i<=controle_j;i++){
-            printf("%d",M[controle_i][i]);
-
-        }
-
-        printf("\n");
-            int x = 1;
+    
+        int x = 1;
          while(M[controle_i][x] != 0){
-              system("clear");
+             /*
+            system("clear");
             for(int i=0;i<linha;i++){
                 for(int j =0; j<coluna;j++){
                     printf("%c ",m[i][j]);
@@ -877,26 +878,31 @@ int busca_largura(No **pRaiz,int linha, int coluna,int tam_max,int v_filhos[],in
                 }
                 printf("\n");
             }
+            */
 
             if(M[controle_i][x] == 1){
                 m[l_inic][c_inic-1] = 'o';
                 c_inic=c_inic-1;
+                printf("(%d,%d) ",l_inic,c_inic);
             }
             if(M[controle_i][x] == 2){
                 m[l_inic+1][c_inic] = 'o';
                 l_inic=l_inic+1;
+                printf("(%d,%d) ",l_inic,c_inic);
             }
             if(M[controle_i][x] == 3){
                 m[l_inic][c_inic+1] = 'o';
                 c_inic=c_inic+1;
+                printf("(%d,%d) ",l_inic,c_inic);
             }
             if(M[controle_i][x] == 4){
                 m[l_inic-1][c_inic] = 'o';
                 l_inic=l_inic-1;
+                printf("(%d,%d) ",l_inic,c_inic);
             }
 
             x++;
-            sleep(1);
+            
            
 
         }
@@ -1038,6 +1044,7 @@ int busca_a_estrela(No **pRaiz,int custo_F,int custo_G,int tam_max, int matriz_c
 
           int x = 1;
          while(M[controle_i][x] != 0){
+             /*
               system("clear");
             for(int i=0;i<linha;i++){
                 for(int j =0; j<coluna;j++){
@@ -1046,29 +1053,35 @@ int busca_a_estrela(No **pRaiz,int custo_F,int custo_G,int tam_max, int matriz_c
                 }
                 printf("\n");
             }
+            */
 
             if(M[controle_i][x] == 1){
                 m[l_inic][c_inic-1] = 'o';
                 c_inic=c_inic-1;
+                printf("(%d,%d) ",l_inic,c_inic);
             }
             if(M[controle_i][x] == 2){
                 m[l_inic+1][c_inic] = 'o';
                 l_inic=l_inic+1;
+                printf("(%d,%d) ",l_inic,c_inic);
             }
             if(M[controle_i][x] == 3){
                 m[l_inic][c_inic+1] = 'o';
                 c_inic=c_inic+1;
+                printf("(%d,%d) ",l_inic,c_inic);
             }
             if(M[controle_i][x] == 4){
                 m[l_inic-1][c_inic] = 'o';
                 l_inic=l_inic-1;
+                printf("(%d,%d) ",l_inic,c_inic);
             }
 
             x++;
-            sleep(1);
+            //sleep(1);
            
 
         }
+        printf("\n");
     }else{
        
 
@@ -1328,6 +1341,7 @@ int busca_greedy(No **pRaiz,int custo_F,int tam_max, int m_custo[2][4],int M[tam
 
         int x = 1;
          while(M[controle_i][x] > 0){
+             /*
               system("clear");
               for(int i=0;i<linha;i++){
                 for(int j =0; j<coluna;j++){
@@ -1336,29 +1350,38 @@ int busca_greedy(No **pRaiz,int custo_F,int tam_max, int m_custo[2][4],int M[tam
                 }
                 printf("\n");
             }
+            */
 
             if(M[controle_i][x] == 1){
                 m[l_inic][c_inic-1] = 'o';
                 c_inic=c_inic-1;
+                printf("(%d,%d) ",l_inic,c_inic);
+
             }
             if(M[controle_i][x] == 2){
                 m[l_inic+1][c_inic] = 'o';
                 l_inic=l_inic+1;
+                printf("(%d,%d) ",l_inic,c_inic);
             }
             if(M[controle_i][x] == 3){
                 m[l_inic][c_inic+1] = 'o';
                 c_inic=c_inic+1;
+                printf("(%d,%d) ",l_inic,c_inic);
             }
             if(M[controle_i][x] == 4){
                 m[l_inic-1][c_inic] = 'o';
                 l_inic=l_inic-1;
+                printf("(%d,%d) ",l_inic,c_inic);
             }
 
             x++;
-            sleep(1);
+           // sleep(1);
            
 
-        } //faço mais uma vez pra alcancar o simbolo $
+        }
+        printf("\n");
+         //faço mais uma vez pra alcancar o simbolo $
+        /*
          system("clear");
               for(int i=0;i<linha;i++){
                 for(int j =0; j<coluna;j++){
@@ -1386,7 +1409,8 @@ int busca_greedy(No **pRaiz,int custo_F,int tam_max, int m_custo[2][4],int M[tam
             }
 
             x++;
-            sleep(1);
+            */
+           
     }else{
     
 
@@ -1457,9 +1481,9 @@ int busca_greedy(No **pRaiz,int custo_F,int tam_max, int m_custo[2][4],int M[tam
         direcao=m_custo[0][0];
         if(m_custo[1][0]==50000){
            
-           system("clear");
-            printf("\nCAMINHO NAO ENCONTRADO\n");
-            sleep(2);
+           //system("clear");
+            printf("CAMINHO NAO ENCONTRADO\n");
+            
             (*pRaiz)->valor = '$';
             busca_greedy(&(*pRaiz),custo_F,tam_max,m_custo,M,linha,coluna,direcao,m,l_inic,c_inic);
 
@@ -1578,38 +1602,46 @@ int busca_hillclimb(int *pmatriz,No **pRaiz,int custo_F,int tam_max, int m_custo
 
           int x = 1;
          while(M[controle_i][x] != 0){
-              system("clear");
+             // system("clear");
+              /*
             for(int i=0;i<linha;i++){
                 for(int j =0; j<coluna;j++){
-                    printf("%c ",m[i][j]);
+                   printf("%c ",m[i][j]);
 
                 }
                 printf("\n");
             }
+            */
 
             if(M[controle_i][x] == 1){
                 m[l_inic][c_inic-1] = 'o';
                 c_inic=c_inic-1;
+                printf("(%d,%d)  ",l_inic,c_inic);
             }
             if(M[controle_i][x] == 2){
                 m[l_inic+1][c_inic] = 'o';
                 l_inic=l_inic+1;
+                printf("(%d,%d)  ",l_inic,c_inic);
+
             }
             if(M[controle_i][x] == 3){
                 m[l_inic][c_inic+1] = 'o';
                 c_inic=c_inic+1;
+                printf("(%d,%d)  ",l_inic,c_inic);
             }
             if(M[controle_i][x] == 4){
                 m[l_inic-1][c_inic] = 'o';
                 l_inic=l_inic-1;
+                printf("(%d,%d)  ",l_inic,c_inic);
             }
 
             x++;
-            sleep(1);
+           // sleep(1);
            
 
         }
-
+        printf("\n");
+         /*
          system("clear");
             for(int i=0;i<linha;i++){
                 for(int j =0; j<coluna;j++){
@@ -1638,7 +1670,11 @@ int busca_hillclimb(int *pmatriz,No **pRaiz,int custo_F,int tam_max, int m_custo
 
             x++;
             sleep(1);
-            
+            */
+
+
+
+
     }else{
     
 
@@ -1731,9 +1767,8 @@ int busca_hillclimb(int *pmatriz,No **pRaiz,int custo_F,int tam_max, int m_custo
 
         //mudanca aleatoria caso preso
         if(m_custo[1][0]==50000){
-           system("clear");
-            printf("\nCAMINHO NAO ENCONTRADO\n");
-            sleep(2);
+           //system("clear");
+            printf("CAMINHO NAO ENCONTRADO\n");
             (*pRaiz)->valor = '$';
             busca_hillclimb(pmatriz,&(*pRaiz),custo_F,tam_max,m_custo,M,linha,coluna,direcao,m,l_inic,c_inic,m_random);
 
@@ -1743,28 +1778,18 @@ int busca_hillclimb(int *pmatriz,No **pRaiz,int custo_F,int tam_max, int m_custo
         }
        
 
-       
-
-            
-
-        
-
-        
-
         if(direcao==1){
 
             busca_hillclimb(pmatriz,&(*pRaiz)->esquerda,custo_F,tam_max,m_custo,M,linha,coluna,direcao,m,l_inic,c_inic,m_random);
   
         }
         if(direcao==2){
-            printf("a\n");
 
             busca_hillclimb(pmatriz,&(*pRaiz)->baixo,custo_F,tam_max,m_custo,M,linha,coluna,direcao,m,l_inic,c_inic,m_random);
   
         }
         if(direcao==3){
 
-            printf("b\n");
             busca_hillclimb(pmatriz,&(*pRaiz)->direita,custo_F,tam_max,m_custo,M,linha,coluna,direcao,m,l_inic,c_inic,m_random);
   
         }
