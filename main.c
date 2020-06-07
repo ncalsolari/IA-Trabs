@@ -58,7 +58,7 @@ printf("b");
     int linha_final=0;
     int coluna_final=0;
 
-    int m_antiloop[2][linha*coluna];
+    int m_antiloop[3][linha*coluna];
 /*
     int * ptr_linha;
     int * ptr_coluna;
@@ -81,6 +81,7 @@ printf("b");
     for(i=0;i<(linha*coluna);i++){
         m_antiloop[0][i]=-1;
         m_antiloop[1][i]=-1;
+        m_antiloop[2][i]=-1;
 
     }
 
@@ -136,11 +137,16 @@ printf("b");
     }
     No **teste;
 
-    
-     constroi_arvore(ptrRaiz2,linha,coluna,matriz,linha_inicio,coluna_inicio,linha_final,coluna_final,controle,indicador,teste,m_antiloop,pos_atual,pos_total,v_proximos_nos,v_indicador,v_pais,posicao_i,posicao_j);
+    /*
+  //constroi_arvore(ptrRaiz2,linha,coluna,matriz,linha_inicio,coluna_inicio,linha_final,coluna_final,controle,indicador,teste,m_antiloop,pos_atual,pos_total,v_proximos_nos,v_indicador,v_pais,posicao_i,posicao_j);
+   */
+   // constroi_arvore2(ptrRaiz2,linha,coluna,matriz,linha_inicio,coluna_inicio,linha_final,coluna_final,controle,indicador,teste,m_antiloop,pos_atual,pos_total,v_proximos_nos,v_indicador,v_pais,posicao_i,posicao_j);
+    //constroi_arvore3(ptrRaiz2, linha,coluna,matriz,linha_inicio,coluna_inicio,linha_final,coluna_final,controle,indicador,teste);
+    constroi_arvore4(ptrRaiz2,linha,coluna,matriz,linha_inicio,coluna_inicio,linha_final,coluna_final,controle,indicador,teste,m_antiloop,pos_atual,pos_total,v_proximos_nos,v_indicador,v_pais,posicao_i,posicao_j);
 
 
-    printf("construiu\n");
+
+    printf("construiu \n");
 
      for(int i=0; i<linha;i++){
 
@@ -171,7 +177,7 @@ printf("b");
     }
     
   
-   busca_profundidade(ptrRaiz2,linha_inicio,coluna_inicio,ptrfinal,posicao_caminho,tam_max,vetor_caminho,linha,coluna,matriz,linha_inicio,coluna_inicio);
+   //busca_profundidade(ptrRaiz2,linha_inicio,coluna_inicio,ptrfinal,posicao_caminho,tam_max,vetor_caminho,linha,coluna,matriz,linha_inicio,coluna_inicio);
 
     pos_atual = 0;
     pos_total = 0;
@@ -201,7 +207,7 @@ printf("b");
     }
 
 
-   // busca_largura(ptrRaiz2,linha,coluna,tam_max,v_filhos,matriz_num,pos_atual,pos_total,v_direcao,direcao,matriz,linha_inicio,coluna_inicio);
+  // busca_largura(ptrRaiz2,linha,coluna,tam_max,v_filhos,matriz_num,pos_atual,pos_total,v_direcao,direcao,matriz,linha_inicio,coluna_inicio);
    
    int matriz_custo[3][tam_max];
    int matriz_direcao[2][tam_max];
@@ -242,7 +248,31 @@ printf("b");
    
   //  busca_a_estrela(ptrRaiz2,custoF,custoG,tam_max,matriz_custo,matriz_num,linha,coluna,direcao,matriz_direcao,matriz,linha_inicio,coluna_inicio);
     
-   
+      for (int i=0;i<linha;i++){
+        for(int j=0;j<coluna;j++){
+            matriz[i][j]=matriz_global[i][j];
+        }
+    }
+
+
+    for (int i=0;i<tam_max;i++){
+        for(int j=0;j<tam_max;j++){
+            matriz_num[i][j]=0;
+        }
+    }
+
+    int m_custo[2][4];
+
+    for(int i=0;i<2;i++){
+        for(int j =0;j<4;j++){
+            m_custo[i][j]=5000;
+        }
+    }
+
+ //busca_greedy(ptrRaiz2,custoF,tam_max,m_custo,matriz_num,linha,coluna,direcao,matriz,linha_inicio,coluna_inicio);
+
+
+
    free (ptrRaiz);
   // free(ptrRaiz2);
   // free(teste);
