@@ -11,17 +11,14 @@ int main(int argc, char *argv[]){
         printf("[ERRO] Arquivo a ser lido não enviado\n");
         return 0;
     }
-
-    
+    //char func_char = *argv[2];
+    //int func = atoi(func_char);
+    //printf("ab %d  %c  %c\n",func,func_char,*argv[2]);
 
     No *ptrRaiz = (No *) malloc(sizeof (No));
-   // No *ptrRaiz;
-   // ptrRaiz = &Raiz;
-    // No **ptrRaiz2 = (No **) malloc(sizeof (No));
     No **ptrRaiz2;
     ptrRaiz2 = &ptrRaiz;
 
-    //printf("argv[2]:%c\n\n",*argv[3]);
     FILE *arq_entrada = fopen(argv[1],"r");
     int linha, coluna;
     char buffer_matriz[2];
@@ -36,18 +33,17 @@ int main(int argc, char *argv[]){
 
     fread(&buffer_matriz,2,1,arq_entrada);
     linha = atoi(buffer_matriz); //transforma a string em numero
-    printf("Linha: %d\n", linha);
   
     fread(&buffer,1,1,arq_entrada); //le o espaço
    
     fread(&buffer_matriz,2,1,arq_entrada);
     coluna = atoi(buffer_matriz); //transforma a string em numero
-    printf("Coluna: %d\n", coluna);
     fread(&buffer,1,1,arq_entrada); //le o qubra de linha
     fread(&buffer,1,1,arq_entrada); //le o qubra de linha
-    //printf("proximo char:%c\n", buffer);
+    
     char matriz[linha][coluna];
     char matriz_global[linha][coluna];
+
     //criação da matriz
     int i=0;
     int j=0;
@@ -59,25 +55,8 @@ int main(int argc, char *argv[]){
     int m_antiloop[4][linha*coluna];
     int *pmatriz;
      pmatriz = m_antiloop[0];
-/*
-    int * ptr_linha;
-    int * ptr_coluna;
-    int * ptr_linha_inicio;
-    int * ptr_coluna_inicio;
-    int * ptr_linha_final;
-    int * ptr_coluna_final;
-    char * ptr_matriz;
 
-    ptr_linha = &i;
-    ptr_coluna = &j;
-    ptr_linha_inicio = &linha_inicio;
-    ptr_coluna_inicio = &coluna_inicio;
-    ptr_linha_final = &linha_final;
-    ptr_coluna_final = &coluna_final;
-   
-    constroi_matriz(ptr_linha,ptr_coluna,ptr_linha_inicio,ptr_coluna_inicio,ptr_linha_final,ptr_coluna_final);
-*/
-  
+
     for(i=0;i<(linha*coluna);i++){
         m_antiloop[0][i]=-1;
         m_antiloop[1][i]=-1;
@@ -142,17 +121,8 @@ int main(int argc, char *argv[]){
 
    
 
-     for(int i=0; i<linha;i++){
+    
 
-        for(int j = 0; j<coluna; j ++){
-           printf("%c ",matriz[i][j]);
-
-        }
-
-        printf("\n");
-    }
-
-  //  printf("inicio:\nlinha:%d coluna:%d\n\nfim:\nlinha:%d coluna:%d\n",linha_inicio,coluna_inicio,linha_final,coluna_final);
 
 
    
@@ -169,8 +139,13 @@ int main(int argc, char *argv[]){
         vetor_caminho[i]='@';
     }
     
+    if(*argv[2]=='1'){
+
+     busca_profundidade(ptrRaiz2,linha_inicio,coluna_inicio,ptrfinal,posicao_caminho,tam_max,vetor_caminho,linha,coluna,matriz,linha_inicio,coluna_inicio);
+
+
+    }
   
-  // busca_profundidade(ptrRaiz2,linha_inicio,coluna_inicio,ptrfinal,posicao_caminho,tam_max,vetor_caminho,linha,coluna,matriz,linha_inicio,coluna_inicio);
 
     pos_atual = 0;
     pos_total = 0;
@@ -199,7 +174,9 @@ int main(int argc, char *argv[]){
         }
     }
 
-
+    if(*argv[2] == '2'){
+     busca_largura(ptrRaiz2,linha,coluna,tam_max,v_filhos,matriz_num,pos_atual,pos_total,v_direcao,direcao,matriz,linha_inicio,coluna_inicio);
+    }
   // busca_largura(ptrRaiz2,linha,coluna,tam_max,v_filhos,matriz_num,pos_atual,pos_total,v_direcao,direcao,matriz,linha_inicio,coluna_inicio);
    
    int matriz_custo[3][tam_max];
@@ -238,6 +215,12 @@ int main(int argc, char *argv[]){
     }
    
   
+    if(*argv[2] == '3'){
+
+    busca_a_estrela(ptrRaiz2,custoF,custoG,tam_max,matriz_custo,matriz_num,linha,coluna,direcao,matriz_direcao,matriz,linha_inicio,coluna_inicio);
+
+
+    }
    
     //busca_a_estrela(ptrRaiz2,custoF,custoG,tam_max,matriz_custo,matriz_num,linha,coluna,direcao,matriz_direcao,matriz,linha_inicio,coluna_inicio);
     
@@ -262,7 +245,12 @@ int main(int argc, char *argv[]){
         }
     }
 
-   busca_greedy(ptrRaiz2,custoF,tam_max,m_custo,matriz_num,linha,coluna,direcao,matriz,linha_inicio,coluna_inicio);
+    if(*argv[2]=='4'){
+
+    busca_greedy(ptrRaiz2,custoF,tam_max,m_custo,matriz_num,linha,coluna,direcao,matriz,linha_inicio,coluna_inicio);
+
+
+    }
 
  for (int i=0;i<linha;i++){
         for(int j=0;j<coluna;j++){
@@ -283,6 +271,14 @@ int main(int argc, char *argv[]){
         for(int j =0;j<4;j++){
             m_custo[i][j]=5000;
         }
+    }
+
+    if(*argv[2]=='5'){
+
+    busca_hillclimb(pmatriz,ptrRaiz2,custoF,tam_max,m_custo,matriz_num,linha,coluna,direcao,matriz,linha_inicio,coluna_inicio,m_antiloop);
+
+
+
     }
     //busca_hillclimb(pmatriz,ptrRaiz2,custoF,tam_max,m_custo,matriz_num,linha,coluna,direcao,matriz,linha_inicio,coluna_inicio,m_antiloop);
 

@@ -548,11 +548,7 @@ int busca_profundidade(No **pRaiz, int linha, int coluna,int *final,int posicao_
         *final = 1;
 
 
-        for(int i = 0; i<posicao_caminho; i++){
-
-        printf("%c",vetor_caminho[i]);
-
-        }
+       
 
         for(int i=0; i<lin;i++){
 
@@ -1613,6 +1609,36 @@ int busca_hillclimb(int *pmatriz,No **pRaiz,int custo_F,int tam_max, int m_custo
            
 
         }
+
+         system("clear");
+            for(int i=0;i<linha;i++){
+                for(int j =0; j<coluna;j++){
+                    printf("%c ",m[i][j]);
+
+                }
+                printf("\n");
+            }
+
+            if(M[controle_i][x] == 1){
+                m[l_inic][c_inic-1] = 'o';
+                c_inic=c_inic-1;
+            }
+            if(M[controle_i][x] == 2){
+                m[l_inic+1][c_inic] = 'o';
+                l_inic=l_inic+1;
+            }
+            if(M[controle_i][x] == 3){
+                m[l_inic][c_inic+1] = 'o';
+                c_inic=c_inic+1;
+            }
+            if(M[controle_i][x] == 4){
+                m[l_inic-1][c_inic] = 'o';
+                l_inic=l_inic-1;
+            }
+
+            x++;
+            sleep(1);
+            
     }else{
     
 
@@ -1705,9 +1731,13 @@ int busca_hillclimb(int *pmatriz,No **pRaiz,int custo_F,int tam_max, int m_custo
 
         //mudanca aleatoria caso preso
         if(m_custo[1][0]==50000){
-            direcao=0;
-            system("clear");
+           system("clear");
             printf("\nCAMINHO NAO ENCONTRADO\n");
+            sleep(2);
+            (*pRaiz)->valor = '$';
+            busca_hillclimb(pmatriz,&(*pRaiz),custo_F,tam_max,m_custo,M,linha,coluna,direcao,m,l_inic,c_inic,m_random);
+
+             direcao=0;
             
                      
         }
