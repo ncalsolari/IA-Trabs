@@ -25,7 +25,7 @@ int constroi_arvore(int *pmatriz,No **pRaiz,int linha, int coluna, char M[linha]
     
     (*pRaiz)->visitado=1;
     
-    pmatriz = m_antiloop[0];
+    //pmatriz = m_antiloop[0];
    
     if(M[i][j] == '$'){
       
@@ -977,6 +977,7 @@ int busca_a_estrela(No **pRaiz,int custo_F,int custo_G,int tam_max, int matriz_c
     custo_G=(*pRaiz)->custo_G;
     int y = 0;
     int vetor_ordena[tam_max];
+    
 
 
     for(int i =0; i<tam_max;i++){
@@ -1036,7 +1037,6 @@ int busca_a_estrela(No **pRaiz,int custo_F,int custo_G,int tam_max, int matriz_c
     }
 
 
-   
 
     if((*pRaiz)->valor == '$'){
        
@@ -1211,7 +1211,7 @@ int busca_a_estrela(No **pRaiz,int custo_F,int custo_G,int tam_max, int matriz_c
         contagem ++;
         i++;
         }
-        
+
 
         for(int j = y-1;j>0;j--){ //ordeno a parte preenchido
             for(int x=0;x<j;x++){

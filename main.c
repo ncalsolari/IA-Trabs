@@ -6,6 +6,7 @@
 #include "main.h"
 
 int main(int argc, char *argv[]){
+   
 
      if(argc == 1) {  //Execução sem enviar arquivo txt
         printf("[ERRO] Arquivo a ser lido não enviado\n");
@@ -64,7 +65,7 @@ int main(int argc, char *argv[]){
         m_antiloop[3][i]=-1;
 
     }
-
+ 
     for( i=0; i<linha;i++){
 
       
@@ -89,6 +90,7 @@ int main(int argc, char *argv[]){
             fread(&buffer,1,1,arq_entrada); 
 
         }
+      
 
         if (buffer != '\n')
         {
@@ -109,20 +111,20 @@ int main(int argc, char *argv[]){
     int v_pais[linha*coluna];
     int posicao_i[linha*coluna];
     int posicao_j[linha*coluna];
+    
 
     for(int x=0; x<(linha*coluna);x++){
         v_indicador[x]=0;
         v_proximos_nos[x]=0;
         v_pais[x]=0;
     }
+ 
     No **teste;
+        
 
     constroi_arvore(pmatriz,ptrRaiz2,linha,coluna,matriz,linha_inicio,coluna_inicio,linha_final,coluna_final,controle,indicador,teste,m_antiloop,pos_atual,pos_total,v_proximos_nos,v_indicador,v_pais,posicao_i,posicao_j);
 
-   
-
-    
-
+  
 
 
    
@@ -214,13 +216,14 @@ int main(int argc, char *argv[]){
         }
     }
    
-  
+   
     if(*argv[2] == '3'){
 
     busca_a_estrela(ptrRaiz2,custoF,custoG,tam_max,matriz_custo,matriz_num,linha,coluna,direcao,matriz_direcao,matriz,linha_inicio,coluna_inicio);
 
 
     }
+   
    
     //busca_a_estrela(ptrRaiz2,custoF,custoG,tam_max,matriz_custo,matriz_num,linha,coluna,direcao,matriz_direcao,matriz,linha_inicio,coluna_inicio);
     
